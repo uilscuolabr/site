@@ -1,0 +1,41 @@
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend: true
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+locale: "it"
+
+collections:
+  - name: "home"
+    label: "Home"
+    files:
+      - file: "src/content/home/home.md"
+        label: "Contenuti Home"
+        name: "home"
+        fields:
+          - { label: "Titolo principale", name: "title", widget: "string" }
+          - { label: "Sottotitolo", name: "subtitle", widget: "text" }
+          - { label: "Testo pulsante principale", name: "primary_button_text", widget: "string" }
+          - { label: "Link pulsante principale", name: "primary_button_link", widget: "string" }
+          - { label: "Avviso in evidenza", name: "featured_title", widget: "string" }
+          - { label: "Testo avviso", name: "featured_text", widget: "text" }
+          - { label: "Link avviso", name: "featured_link", widget: "string", required: false }
+          - { label: "Corpo pagina", name: "body", widget: "markdown" }
+
+  - name: "news"
+    label: "Notizie"
+    folder: "src/content/news"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Titolo", name: "title", widget: "string" }
+      - { label: "Data", name: "date", widget: "datetime" }
+      - { label: "Categoria", name: "category", widget: "select", options: ["Comunicati", "Concorsi", "Docenti", "ATA", "Supplenze", "Pensioni", "Normativa", "Campagne"] }
+      - { label: "Immagine", name: "image", widget: "image", required: false }
+      - { label: "Allegato PDF", name: "attachment", widget: "file", required: false }
+      - { label: "Riassunto", name: "summary", widget: "text" }
+      - { label: "Testo", name: "body", widget: "markdown" }

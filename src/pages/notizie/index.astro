@@ -1,0 +1,33 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const modules = await import.meta.glob('../../content/news/*.md', { eager: true });
+const news = Object.values(modules)
+  .map((item) => ({
+    ...item.frontmatter,
+    slug: item.file?.split('/').pop()?.replace('.md', '')
+  }))
+  .sort((a, b) => new Date(b.date) - new Date(a.date));
+---
+
+<Layout title="Notizie - UIL Scuola Brindisi">
+  <section class="page-hero">
+    <div class="container">
+      <h1>Notizie</h1>
+      <p>Avvisi, comunicati e aggiornamenti territoriali.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid">
+      {news.map((item) => (
+        <article class="card news-card">
+          <span class="badge">{item.category}</span>
+          <h2>{item.title}</h2>
+          <p>{item.summary}</p>
+          <a href={`/notizie/${item.slug}/`}>Leggi la notizia →</a>
+        </article>
+      ))}
+    </div>
+  </section>
+</Layout>

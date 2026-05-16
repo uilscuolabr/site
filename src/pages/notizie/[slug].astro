@@ -1,0 +1,36 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const modules = await import.meta.glob('../../content/news/*.md', { eager: true });
+  return Object.values(modules).map((item) => ({
+    params: { slug: item.file.split('/').pop().replace('.md', '') },
+    props: { item }
+  }));
+}
+
+const { item } = Astro.props;
+const { Content } = item;
+const data = item.frontmatter;
+---
+
+<Layout title={`${data.title} - UIL Scuola Brindisi`}>
+  <section class="page-hero">
+    <div class="container">
+      <p><span class="badge">{data.category}</span></p>
+      <h1>{data.title}</h1>
+      <p>{new Date(data.date).toLocaleDateString('it-IT')}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container content">
+      <Content />
+      {data.attachment && (
+        <p>
+          <a class="button" href={data.attachment}>Scarica allegato</a>
+        </p>
+      )}
+    </div>
+  </section>
+</Layout>

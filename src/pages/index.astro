@@ -1,0 +1,67 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const homeModules = await import.meta.glob('../content/home/home.md', { eager: true });
+const home = Object.values(homeModules)[0];
+const data = home.frontmatter;
+
+const newsModules = await import.meta.glob('../content/news/*.md', { eager: true });
+const news = Object.values(newsModules)
+  .map((item) => ({ ...item.frontmatter, url: `/notizie/${item.file?.split('/').pop()?.replace('.md', '')}/` }))
+  .sort((a, b) => new Date(b.date) - new Date(a.date))
+  .slice(0, 3);
+---
+
+<Layout title="UIL Scuola Brindisi">
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <h1>{data.title}</h1>
+        <p>{data.subtitle}</p>
+        <a class="button" href={data.primary_button_link}>{data.primary_button_text}</a>
+      </div>
+      <div class="card hero-card">
+        <span class="badge">In evidenza</span>
+        <h2>{data.featured_title}</h2>
+        <p>{data.featured_text}</p>
+        {data.featured_link && <a href={data.featured_link}>Leggi di più →</a>}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Ultime notizie</h2>
+      <div class="grid grid-3">
+        {news.map((item) => (
+          <article class="card news-card">
+            <span class="badge">{item.category}</span>
+            <h3>{item.title}</h3>
+            <p>{item.summary}</p>
+            <a href={item.url}>Apri notizia →</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid grid-3">
+      <article class="card">
+        <h3>Servizi</h3>
+        <p>Consulenza, assistenza, CAF, patronato e servizi agli iscritti.</p>
+        <a href="/servizi/">Vai ai servizi →</a>
+      </article>
+      <article class="card">
+        <h3>Normativa</h3>
+        <p>Documenti, riferimenti normativi, circolari e approfondimenti.</p>
+        <a href="/normativa/">Consulta →</a>
+      </article>
+      <article class="card">
+        <h3>Contatti</h3>
+        <p>Raggiungi la sede territoriale o invia una richiesta.</p>
+        <a href="/contatti/">Contattaci →</a>
+      </article>
+    </div>
+  </section>
+</Layout>

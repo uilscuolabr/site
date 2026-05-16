@@ -1,0 +1,55 @@
+---
+import '../styles/global.css';
+
+const {
+  title = 'UIL Scuola Brindisi',
+  description = 'Sito territoriale UIL Scuola Brindisi'
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="/" class="brand" aria-label="UIL Scuola Brindisi">
+          <span class="logo-mark">UIL</span>
+          <span>UIL Scuola Brindisi</span>
+        </a>
+        <nav class="nav" aria-label="Menu principale">
+          <a href="/">Home</a>
+          <a href="/notizie/">Notizie</a>
+          <a href="/servizi/">Servizi</a>
+          <a href="/normativa/">Normativa</a>
+          <a href="/campagne/">Campagne</a>
+          <a href="/speciali/">Gli Speciali</a>
+          <a href="/contatti/">Contatti</a>
+          <a href="/area-riservata/">Area riservata</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div>
+          <strong>UIL Scuola Brindisi</strong>
+          <p>Diritti, tutela e informazione per il personale della scuola.</p>
+        </div>
+        <div>
+          <p>Via Dalmazia, 37 - Brindisi</p>
+          <p>© 2026 UIL Scuola Brindisi</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
